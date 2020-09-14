@@ -1,0 +1,74 @@
+{% extends 'administration/administration.html.twig' %}
+
+{% block admin_content %}
+
+    <p class="h3 mb-4"><strong>Suppression d'une oeuvre</strong></p>
+
+    {% for label, messages in app.flashes(['error']) %}
+        {% for message in messages %}
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                {{ message }}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        {% endfor %}
+    {% endfor %}
+
+    {% include 'oeuvres/oeuvres_list.html.twig' with {'oeuvre_list_item_template': 'oeuvres/oeuvres_list_item_supprimable.html.twig'} %}
+
+    <!-- Modal de confirmation de suppression -->
+    <div class="modal fade" id="modale-suppression" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">Confirmation de suppression</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>Etes vous sur de vouloir supprimer l'oeuvre <span class="font-italic" id="modale-nom-oeuvre"></span> ?</p>
+                    <p>Cette action est irréversible.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
+                    <a id="modale-valider-suppression-btn" class="btn btn-info" href="">Supprimer</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    {# ajouter ici les fichiers css custom à la page#}
+{% endblock %}
+
+ {% block javascripts %}
+     {{ parent() }}
+
+     <script>
+         $(document).ready(function(){
+             $(".btn-supprimer-oeuvre").click(function (event) {
+
+                 var target = $( event.target );
+
+                 //récupérer le lien de suppresseion et le nom de la catégorie cliquée
+                 var nom = target.attr('data-oeuvre-name');
+                 var del_link = target.attr('data-oeuvre-del-link');
+
+                 //seter le nom dans la modale
+                 $("#modale-nom-oeuvre").text(nom);
+
+                 //seter le lien de suppresssion dans la modale
+                 $("#modale-valider-suppression-btn").attr("href", del_link);
+
+                 //afficher la modale
+                 $("#modale-suppression").modal();
+             });
+         });
+     </script>
+
+ {% endblock %}

@@ -1,0 +1,31 @@
+{% extends 'pageSite.html.twig' %}
+
+{% block main %}
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-3">
+                <h3 class="my-4">Administration</h3>
+                <div class="list-group">
+                    <a id="go-to-admin-categories" class="list-group-item text-decoration-none text-info" href="{{ path('adminCategories') }}"><i class="fas fa-shapes"></i> Catégories</a>
+                    <a id="go-to-admin-oeuvres" class="list-group-item text-decoration-none text-info" href="{{ path('adminOeuvres') }}"><i class="fas fa-paint-brush"></i> Oeuvres</a>
+                    <a id="go-to-admin-utilisateurs" class="list-group-item text-decoration-none text-info" href="{{ path('adminUtilisateurs') }}"><i class="fas fa-users"></i> Utilisateurs</a>
+                </div>
+            </div>
+            <div class="col-lg-9">
+                <div class="text-center border border-light p-5 m-5">
+                    {% block admin_content %}{% endblock %}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    {# ajouter ici les fichiers css custom à la page#}
+{% endblock %}
+
+ {% block javascripts %}
+     {{ parent() }}
+     {# ajouter ici les fichiers js custom à la page#}
+ {% endblock %}

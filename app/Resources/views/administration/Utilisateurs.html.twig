@@ -1,0 +1,107 @@
+{% extends 'administration/administration.html.twig' %}
+
+{% block admin_content %}
+
+    <p class="h3 mb-4"><strong>Suppression d'un utilisateur</strong></p>
+
+    {% for label, messages in app.flashes(['error']) %}
+        {% for message in messages %}
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                {{ message }}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        {% endfor %}
+    {% endfor %}
+
+
+    {{ form_start(form_recherche) }}
+
+    <div class="form-row mb-4">
+        <div class="col-11">
+            {{ form_widget(form_recherche.login, {'attr': {
+                'class': 'form-control',
+                'placeholder': 'Login de l\'utilisateur que vous recherchez ...',
+                'id' : 'recherche-utilisateur-login-input'
+            }}) }}
+        </div>
+        <div class="col-1">
+            {{ form_widget(form_recherche.chercher, {'attr': {'class': 'btn btn-info fas fa-search btn-block', 'id' : 'recherche-utilisateur-btn', 'style': 'height:100%'} }) }}
+        </div>
+    </div>
+
+
+    {{ form_end(form_recherche) }}
+
+    <table class="table table-bordered">
+        <tbody>
+        {% for utilisateur in utilsateurs %}
+            <tr>
+                <td scope="row">{{ utilisateur.login }}</td>
+                <td>
+                    <button type="button"
+                            class="btn-supprimer-utilisateur btn btn-info"
+                            data-user-name="{{ utilisateur.login }}"
+                            data-user-del-link="{{ path('suppressionUtilisateur', {'userId': utilisateur.id}) }}">
+                        Supprimer
+                    </button>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                Pas d'utilisateur trouvé.
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <!-- Modal de confirmation de suppression -->
+    <div class="modal fade" id="modale-suppression" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">Confirmation de suppression</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>Etes vous sur de vouloir supprimer l'utilisateur <span class="font-italic" id="modale-nom-utilisateur"></span> ?</p>
+                    <p>Cette action est irréversible.</p>
+                    <p>Les oeuvres créees par l'utilisateur ne seront pas impactées et seront conservées.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
+                    <a id="modale-valider-suppression-btn" class="btn btn-info" href="">Supprimer</a>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+ {% block javascripts %}
+     {{ parent() }}
+
+     <script>
+         $(document).ready(function(){
+             $(".btn-supprimer-utilisateur").click(function (event) {
+
+                 var target = $( event.target );
+
+                 //récupérer le lien de suppresseion et le nom de la catégorie cliquée
+                 var nom = target.attr('data-user-name');
+                 var del_link = target.attr('data-user-del-link');
+
+                 //seter le nom dans la modale
+                 $("#modale-nom-utilisateur").text(nom);
+
+                 //seter le lien de suppresssion dans la modale
+                 $("#modale-valider-suppression-btn").attr("href", del_link);
+
+                 //afficher la modale
+                 $("#modale-suppression").modal();
+             });
+         });
+     </script>
+ {% endblock %}

@@ -1,0 +1,12 @@
+{# template pour afficher une liste d'oeuvres pour les classements #}
+
+<div class="text-left m-5 " style="display: inline;">
+    <ul class="list-group">
+        {% for oeuvre in oeuvres %}
+            {% include oeuvre_list_item_template %}
+        {% else %}
+            <p><strong>Aucune oeuvre avec avis trouvée pour cette catégorie et période</strong></p>
+        {% endfor %}
+    </ul>
+</div>
+

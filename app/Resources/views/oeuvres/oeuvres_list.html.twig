@@ -1,0 +1,12 @@
+{# template pour afficher une liste d'oeuvres #}
+
+<div class="text-left m-5 " style="display: inline;">
+    <ul class="list-group">
+        {% for oeuvre in oeuvres|sort((a, b) => a.ratioAvisPourcentage() > b.ratioAvisPourcentage()) %}
+            {% include oeuvre_list_item_template %}
+        {% else %}
+            <p><strong>Aucune oeuvre trouvée.</strong></p>
+        {% endfor %}
+    </ul>
+</div>
+

@@ -1,0 +1,53 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+    <nav class="navbar navbar-dark bg-dark box-shadow">
+        <div class="navbar-header">
+            <a id="logo-img-btn" class="navbar-brand" href="{{ path('home') }}">
+                <img src="{{ asset('images/logonumberOne.png') }}" alt="numéro number one">
+            </a>
+        </div>
+        <ul class="navbar-nav">
+            {% if is_granted('ROLE_ADMIN') %}
+                <li class="nav-item mr-3">
+                    <a id="go-to-amdin-btn" class="nav-link btn text-white" style="font-size: 25px; padding-top: 10px" role="button" href="{{ path('administration') }}" title="Administration">
+                        <i class="fas fa-cog"></i> Administation
+                    </a>
+                </li>
+            {% endif %}
+            <li class="nav-item mr-3">
+                <span id="user-info" class="text-white nav-link" style="font-size: 25px; padding-top: 10px">
+                    <i class="fas fa-user"></i>
+                    {{ app.user.username }}
+                </span>
+            </li>
+            <li class="nav-item mr-3">
+                <a id="logout-btn" class="nav-link btn text-white" style="font-size: 25px;padding-top: 10px" role="button" href="{{ path('logout') }}" title="Déconnexion">
+                    <i class="fas fa-sign-out-alt"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    {% if is_granted('ROLE_USER') %}
+        <nav class="nav nav-tabs m-2">
+            <a id="go-to-home-btn" class="nav-item nav-link text-black-50 {% if app.request.get('_route') == 'home' %}active{% endif %}" role="button" href="{{ path('home') }}">Recherche</a>
+            <a id="go-to-ajout-oeuvre-btn" class="nav-item nav-link text-black-50 {% if app.request.get('_route') == 'ajoutOeuvre' %}active{% endif %}" role="button" href="{{ path('ajoutOeuvre') }}">Ajouter une oeuvre</a>
+            <a id="go-to-mes-oeuvre-btn" class="nav-item nav-link text-black-50 {% if app.request.get('_route') == 'mesOeuvres' %}active{% endif %}" role="button" href="{{ path('mesOeuvres') }}">Mes oeuvres</a>
+            <a id="go-to-classement-btn" class="nav-item nav-link text-black-50 {% if app.request.get('_route') == 'classement' %}active{% endif %}" role="button" href="{{ path('classement') }}">Classement</a>
+        </nav>
+    {% endif %}
+
+    {% block main %}{% endblock %}
+
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    {# ajouter ici les fichiers css custom à la page#}
+{% endblock %}
+
+ {% block javascripts %}
+     {{ parent() }}
+     {# ajouter ici les fichiers js custom à la page#}
+ {% endblock %}

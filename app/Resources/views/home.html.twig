@@ -1,0 +1,42 @@
+{% extends 'pageSite.html.twig' %}
+
+{% block main %}
+    <div class="container">
+        <div class="text-center m-5" style="display: inline;">
+            <p class="h3 mb-4"><strong>Recherche</strong></p>
+            {{ form_start(form) }}
+
+            <div class="form-row mb-4">
+                <div class="col-2"></div>
+                <div class="col-7">
+                    {{ form_widget(form.Barre, {'attr': {
+                        'class': 'form-control',
+                        'placeholder': 'Nom de l\'oeuvre que vous recherchez ...',
+                        'size' : '50',
+                        'id' : 'recherche-oeuvre-input'
+                    } }) }}
+                </div>
+                <div class="col-1">
+                    {{ form_widget(form.Rechercher, {'attr': {'class': 'btn btn-info fas fa-search btn-block', 'id' : 'recherche-oeuvre-btn', 'style': 'height:100%'} }) }}
+                </div>
+                <div class="col-2 "></div>
+            </div>
+
+            {{ form_end(form) }}
+
+            {% if oeuvres is defined %}
+                {% include 'oeuvres/oeuvres_list.html.twig' with {'oeuvre_list_item_template': 'oeuvres/oeuvres_list_item.html.twig'} %}
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    {# ajouter ici les fichiers css custom à la page#}
+{% endblock %}
+
+ {% block javascripts %}
+     {{ parent() }}
+     {# ajouter ici les fichiers js custom à la page#}
+ {% endblock %}

@@ -1,0 +1,128 @@
+{% extends 'pageSite.html.twig' %}
+{% form_theme form 'form/errors.html.twig' %}
+
+{% block main %}
+    <div class="container" style="width: 50%; text-align: center;">
+        <h2 style="font-size: 30pt; font-weight: bold; margin-top:2%; margin-bottom:5%;">{{ oeuvre.nom }}</h2>
+{#                    {%if oeuvre.photoPrincipale is not null %}#}
+{#                        <div class="row" style=>#}
+{#                            <div class="col-5-lg">#}
+{#                                <img src="{{ asset('uploads/photos/' ~ oeuvre.photoPrincipale.getCheminServeur) }}" alt="image principale de {{ oeuvre.nom }}">#}
+{#                            </div>#}
+{#                        </div>#}
+{#                    {% endif %}#}
+        <div class="container">
+            {{ form_start(form) }}
+
+            {{ form_errors(form) }}
+            {{ form_errors(form.nom) }}
+            {{ form_errors(form.descriptif) }}
+            {{ form_errors(form.categorie) }}
+            {{ form_errors(form.photoPrincipale) }}
+            {{ form_errors(form.groupsImages) }}
+            {{ form_errors(form.auteurs) }}
+            {{ form_errors(form.datePublication) }}
+
+            <div class="input-group mb-4">
+                <div class="input-group-prepend">
+                    <div class="input-group-text">Nom</div>
+                </div>
+                {{ form_widget(form.children['nom'], {'attr': {'class': 'form-control', 'placeholder': 'Nom'} }) }}
+            </div>
+
+            <div class="input-group mb-4">
+                <div class="input-group-prepend">
+                    <div class="input-group-text">Descriptif</div>
+                </div>
+                {{ form_widget(form.children['descriptif'], {'attr': {'class': 'form-control', 'placeholder': 'Descriptif'} }) }}
+            </div>
+
+            <div class="input-group  mb-4">
+                <div class="input-group-prepend">
+                    <div class="input-group-text">Catégorie</div>
+                </div>
+                {{ form_widget(form.children['categorie'], {'attr': {'class': 'form-control'} }) }}
+            </div>
+
+            <div class="form-row align-items-center">
+                {{ form_label(form.children['photoPrincipale'], "Photo principale") }}
+                {{ form_widget(form.children['photoPrincipale'], {'attr': {'class': 'mb-4'} }) }}
+                {{ form_row(form.children['supprimerPhotoPrincipale'], {'attr':{'class': 'mb-4'} }) }}
+
+            </div>
+
+
+            {% set filePrototype = form_widget(form.groupsImages.vars.prototype.children.photos.vars.prototype) %}
+            {% set groupPrototype = form_widget(form.groupsImages.vars.prototype) %}
+            <div id="data_groups" class="mb-4" data-group-prototype="{{groupPrototype|e('html_attr')}}"
+                 data-file-prototype="{{filePrototype|e('html_attr')}}">
+                <div id="groups_list" class="mb-4">
+                    {% for group in form.groupsImages %}
+                        <span id="li_group_{{loop.index}}_fields_list">
+                            <div id="ul_{{loop.index}}_fields_list" class="files">
+                                {{ form_row(group.files) }}
+                                {% for photo in group.photos %}
+                                    <span id="span_image_{{photo.vars.value.id}}">
+                                        <img src="{{ asset('uploads/photos/' ~ photo.vars.value.getCheminMiniatureServeur) }}">
+                                        <input type="button" class="delete_buttons" id="delete_file_{{photo.vars.value.id}}" 
+                                               value="Supprimer" title="Supprimer le fichier de la liste sur le serveur
+                                               La suppresssion est effective seulement après confirmation" onclick="deleteFile(this);"/>
+                                        <div id="hide_file_{{photo.vars.value.id}}" style="display:none">
+                                            {{form_row(photo.id)}}
+                                            {{form_row(photo.nomServeur)}}
+                                        </div>
+                                    </span>
+                                {% endfor %}
+                            </div>
+                        </span>
+                    {% endfor %}
+                </div>
+                    {{ form_row(form.children['groupsImages']) }}
+                    {{ form_row(form.children['addGroup']) }}
+            </div>
+
+            <div class="input-group mb-4">
+                <div class="input-group-prepend">
+                    <div class="input-group-text">Auteurs</div>
+                </div>
+                {{ form_widget(form.children['auteurs'], {'attr': {'class': 'form-control', 'placeholder': 'Auteurs'} }) }}
+            </div>
+
+            <div class="input-group date">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">Date de publication</span>
+                </div>
+                {{ form_widget(form.children['datePublication']) }}
+                <div class="input-group-append">
+                    <span class="input-group-text" ><i class="fas fa-th"></i></span>
+                </div>
+            </div>
+
+                {{ form_widget(form.children['save'], {'attr': {'class': 'btn btn-info btn-block my-4'} }) }}
+                {{ form_end(form)}}
+        </div>
+    </div>
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link href="{{ asset('libraries/bootstrap-datepicker-1.9.0-dist/css/bootstrap-datepicker3.min.css') }}" rel="stylesheet"/>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+    {#  pour le date picker  #}
+    <script type="text/javascript" src="{{ asset('libraries/bootstrap-datepicker-1.9.0-dist/js/bootstrap-datepicker.min.js') }}"></script>
+    <script>
+        $('.input-group.date').datepicker({
+            language: "fr",
+            autoclose: true,
+        });
+    </script>
+
+    {#  pour les photos secondaires  #}
+    <script type="text/javascript" src="{{asset('js/loadScripts.js')}}"></script>
+    <script type="text/javascript" id="depositScript" src="{{asset('js/oeuvreDeposit.js')}}"></script>
+    <script type="text/javascript" id="editScript" src="{{asset('js/oeuvreEdit.js')}}" nbFiles="{{form.groupsImages|length}}"></script>
+{% endblock %}

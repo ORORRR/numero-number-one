@@ -1,0 +1,44 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <nav class="navbar navbar-dark bg-dark box-shadow">
+        <div class="navbar-header">
+            <a class="navbar-brand">
+                <img src="{{ asset('images/logonumberOne.png') }}">
+            </a>
+        </div>
+
+    </nav>
+    <main class="container">
+        <div class="text-center border border-light p-5 m-5">
+            <p class="h3 mb-4"><strong>Se connecter</strong></p>
+
+            {% if error %}
+                <p class="text-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</p>
+            {% endif %}
+
+            <form method="post" class="">
+
+                <input type="text" class="form-control mb-4" id="username" name="_username" placeholder="Login" value="{{ last_username }}"/>
+
+                <input type="password" class="form-control mb-4" id="password" name="_password" placeholder="Mot de passe"/>
+
+                <button id="connexion-submit-btn" type="submit" class="btn btn-info btn-block my-4">Se connecter</button>
+
+                <p class="mt-5">Pas encore inscrit ?
+                    <a id="go-to-inscription-btn" class="btn btn-info" role="button" href="{{ path('inscription') }}">Créer un compte</a>
+                </p>
+            </form>
+        </div>
+    </main>
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    {# importer ici les fichiers css customs à la page#}
+{% endblock %}
+
+ {% block javascripts %}
+     {{ parent() }}
+     {# importer ici les fichiers js customs à la page#}
+ {% endblock %}

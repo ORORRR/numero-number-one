@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <title>{% block title %}Numéro Number One{% endblock %}</title>
+
+        {% block stylesheets %}
+           <!--<link href="{{ asset('libraries/bootstrap-4.3.1-dist/css/bootstrap.min.css') }}" rel="stylesheet"/>-->
+           <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+            <!-- Optional theme -->
+{#            <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap-theme.min.css">#}
+            <link href="{{ asset('libraries/fontawesome-free-5.11.2-web/css/all.min.css') }}" rel="stylesheet"/>
+            <link href="{{ asset('css/main.css') }}" rel="stylesheet"/>
+        {% endblock %}
+
+        <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
+    </head>
+    <body>
+        {% block body %}{% endblock %}
+
+        {% block javascripts %}
+            <!--<script src="{{ asset('libraries/jquery-1.11.3/jquery-1.11.3.min.js') }}"></script>-->
+            <!--<script src="{{ asset('libraries/bootstrap-4.3.1-dist/js/bootstrap.min.js') }}"></script>-->
+            <script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
+            <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+            <script src="{{ asset('js/main.js') }}"></script>
+        {% endblock %}
+    </body>
+</html>

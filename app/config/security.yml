@@ -1,0 +1,54 @@
+# To get started with security, check out the documentation:
+# https://symfony.com/doc/current/security.html
+security:
+
+    encoders:
+        AppBundle\Entity\Utilisateur:
+            algorithm: bcrypt
+
+    # https://symfony.com/doc/current/security.html#b-configuring-how-users-are-loaded
+    providers:
+        our_db_provider:
+            entity:
+                class: AppBundle:Utilisateur
+                property: login
+
+        in_memory:
+            memory: ~
+
+    firewalls:
+        # disables authentication for assets and the profiler, adapt it according to your needs
+        dev:
+            pattern: ^/(_(profiler|wdt)|css|images|js)/
+            security: false
+
+        main:
+            anonymous: ~
+            # activate different ways to authenticate
+
+            # https://symfony.com/doc/current/security.html#a-configuring-how-your-users-will-authenticate
+            #http_basic: ~
+
+            # https://symfony.com/doc/current/security/form_login_setup.html
+            form_login:
+                login_path: connexion
+                check_path: connexion
+                default_target_path: home
+                always_use_default_target_path: false
+
+            logout:
+                path: logout
+                target: connexion
+
+            provider: our_db_provider
+
+
+    access_control:
+        - { path: '^/connexion', roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: '^/inscription', roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: '^/kill-cache', roles: ROLE_ADMIN }
+        - { path: '^/admin', roles: ROLE_ADMIN }
+        - { path: '^/ajout-oeuvre', roles: ROLE_USER }
+        - { path: '^/mes-oeuvres', roles: ROLE_USER }
+        - { path: '^/classement', roles: ROLE_USER }
+        - { path: '^/', roles: [ ROLE_USER, ROLE_ADMIN ] }

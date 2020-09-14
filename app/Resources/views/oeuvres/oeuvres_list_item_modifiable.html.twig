@@ -1,0 +1,63 @@
+{# template pour afficher une liste d'oeuvres #}
+
+{% set oeuvre_link =  path('visualiserOeuvre', {'oeuvreId': oeuvre.id}) %}
+<li class="list-group-item btn btn-light text-left"
+    onclick="window.location='{{ oeuvre_link }}'"
+    style="cursor: pointer;"
+    tabindex="1">
+    <div class="row">
+        <div class="col-md-2 text-center pl-0">
+            {% if oeuvre.photoPrincipale is not null %}
+                <img src="{{ asset('uploads/photos/' ~ oeuvre.photoPrincipale.getCheminMiniatureServeur) }}" class="img-thumbnail center-block">
+            {% else %}
+                <img src="{{ asset('images/Point-dinterrogation.png') }}"  class="img-thumbnail .center-block">
+            {% endif %}
+        </div>
+        <div class="col-md-4">
+            <h4>{{oeuvre.nom}}</h4>
+            <h6>{{ oeuvre.categorie.nom }}</h6>
+            <h6 class="font-italic">Auteur(s) :
+                {% if oeuvre.auteurs is not null %}
+                    {{oeuvre.auteurs}}
+                {% else %}
+                    Aucun
+                {% endif %}
+            </h6>
+
+        </div>
+        <div class="col-md-4">
+            <div class="container">
+                <div id="avis-list" class="row pt-1">
+                    <b>Avis :</b> {{ oeuvre.ratioAvis() }} ({{ oeuvre.avis|length }} avis)
+                </div>
+
+                <div class="row pt-3">
+                    {% if oeuvre.avis|length == 0 %}
+                        <div id="progress_vide" class="progress" style="width:100%;">
+                        </div>
+                    {% else %}
+                        <div id="progress_non_vide" class="progress"  style="width:100%;" >
+                            <div class="progress-bar" role="progressbar" aria-valuenow="{{ oeuvre.ratioAvisPourcentage() }}" aria-valuemin="0" aria-valuemax="100" style="width: {{ oeuvre.ratioAvisPourcentage() }}%;">
+                            </div>
+                            <div id="avis_pourcentage">
+                                {{ oeuvre.ratioAvisPourcentage() }}
+                            </div>
+                            <div id="pourcentage">
+                                %
+                            </div>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-1">
+            <div class="mt-4">
+                <a class="btn btn-info text-decoration-none" role="button" href="{{ path('editerOeuvre', {'oeuvreId': oeuvre.id} ) }}">Modifier</a>
+            </div>
+        </div>
+    </div>
+</li>
+
+
+

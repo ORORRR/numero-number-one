@@ -1,0 +1,73 @@
+{% extends 'pageSite.html.twig' %}
+{% form_theme form 'form/errors.html.twig' %}
+
+{% block main %}
+    <div class="container">
+        <div id="form-ajout-oeuvre" class="text-center border border-light p-5 m-5">
+            <p class="h3 mb-4"><strong>Ajouter une oeuvre</strong></p>
+            {{ form_start(form) }}
+
+            {{ form_errors(form) }}
+            {{ form_errors(form.nom) }}
+            {{ form_errors(form.descriptif) }}
+            {{ form_errors(form.categorie) }}
+            {{ form_errors(form.photoPrincipale) }}
+            {{ form_errors(form.groupsImages) }}
+            {{ form_errors(form.auteurs) }}
+            {{ form_errors(form.datePublication) }}
+
+            {{ form_widget(form.children['nom'], {'attr': {'class': 'form-control mb-4', 'placeholder': 'Nom'} }) }}
+
+            {{ form_widget(form.children['descriptif'], {'attr': {'class': 'form-control mb-4', 'placeholder': 'Descriptif', 'maxlength' : "512"} }) }}
+
+            {{ form_widget(form.children['categorie'], {'attr': {'class': 'form-control mb-4'} }) }}
+
+            {{ form_label(form.children['photoPrincipale'], "Photo principale") }}
+            {{ form_widget(form.children['photoPrincipale'], {'attr': {'class': 'mb-4'} }) }}
+            {% set filePrototype = form_widget(form.groupsImages.vars.prototype.children.photos.vars.prototype) %}
+            {% set groupPrototype = form_widget(form.groupsImages.vars.prototype) %}
+            <div id="data_groups" class="files" data-group-prototype="{{groupPrototype|e('html_attr')}}"
+                 data-file-prototype="{{filePrototype|e('html_attr')}}">
+                <ul id="groups_list">
+                </ul>
+            </div>
+            {{ form_row(form.children['groupsImages']) }}
+            {{ form_row(form.children['addGroup'], {'attr': {'label': 'Photos secondaires'}})}}
+
+
+            {{ form_widget(form.children['auteurs'], {'attr': {'class': 'form-control mb-4', 'placeholder': 'Auteurs'} }) }}
+
+            <div class="input-group date">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">Date de publication</span>
+                </div>
+                {{ form_widget(form.children['datePublication']) }}
+                <div class="input-group-append">
+                    <span class="input-group-text" ><i class="fas fa-th"></i></span>
+                </div>
+            </div>
+
+            {{ form_widget(form.children['save'], {'attr': {'class': 'btn btn-info btn-block my-4'} }) }}
+            {{ form_end(form) }}
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script type="text/javascript" src="{{ asset('libraries/bootstrap-datepicker-1.9.0-dist/js/bootstrap-datepicker.min.js') }}"></script>
+    <script>
+        $('#form-ajout-oeuvre .input-group.date').datepicker({
+            language: "fr",
+            autoclose: true,
+        });
+    </script>
+    <script src="{{asset('js/loadScripts.js')}}"></script>
+    <script src="{{asset('js/oeuvreDeposit.js')}}"></script>
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link href="{{ asset('libraries/bootstrap-datepicker-1.9.0-dist/css/bootstrap-datepicker3.min.css') }}" rel="stylesheet"/>
+{% endblock %}

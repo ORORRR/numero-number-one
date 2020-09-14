@@ -1,0 +1,45 @@
+{% extends 'base.html.twig' %}
+{% form_theme form 'form/errors.html.twig' %}
+
+{% block body %}
+    <nav class="navbar navbar-dark bg-dark box-shadow">
+        <div class="navbar-header">
+            <a class="navbar-brand">
+                <img src="{{ asset('images/logonumberOne.png') }}">
+            </a>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="text-center border border-light p-5 m-5">
+            <p class="h3 mb-4"><strong>Page d'inscription</strong></p>
+
+            {{ form_start(form, {'attr': {'class': ' '} }) }}
+
+            {{ form_errors(form) }}
+            {{ form_errors(form.login) }}
+            {{ form_errors(form.plainPassword.first) }}
+
+            {{ form_widget(form.login, {'attr': {'class': 'form-control mb-4', 'placeholder': 'Login'} }) }}
+            {{ form_widget(form.plainPassword.first, {'attr': {'class': 'form-control mb-4', 'placeholder': 'Mot de passe'} }) }}
+            {{ form_widget(form.plainPassword.second, {'attr': {'class': 'form-control mb-4', 'placeholder': 'Confirmation mot de passe'} }) }}
+
+            <button id="inscription-submit-btn" type="submit" class="btn btn-info btn-block my-4">S'inscrire !</button>
+            {{ form_end(form) }}
+
+            <p class="mt-5">Deja inscrit ?
+                <a id="go-to-connexion-btn" class="btn btn-info" role="button" href="{{ path('connexion') }}">Connectez vous</a>
+            </p>
+        </div>
+    </div>
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    {# ajouter ici les fichiers css custom à la page#}
+{% endblock %}
+
+ {% block javascripts %}
+     {{ parent() }}
+     {# ajouter ici les fichiers js custom à la page#}
+ {% endblock %}

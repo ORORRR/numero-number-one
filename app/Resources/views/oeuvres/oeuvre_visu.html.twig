@@ -1,0 +1,191 @@
+{% extends 'pageSite.html.twig' %}
+{% form_theme form 'form/errors.html.twig' %}
+
+{% block main %}
+    <div class="container" style="width: 75%; text-align: center;">
+        {#   message de validation de création/modification    #}
+        {% for label, messages in app.flashes(['info']) %}
+            {% for message in messages %}
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    {{ message }}
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            {% endfor %}
+        {% endfor %}
+
+        <h2 id="titre_oeuvre" style="font-size: 30pt; font-weight: bold; margin-top:2%; margin-bottom:5%;">{{ oeuvre.nom }}</h2>
+        {%if oeuvre.photoPrincipale is not null %}
+            <div id=visu_wrapper class="row">
+                <div id=img_container class="col-sm">
+                    <span></span>
+                    <img id=img_oeuvre src="{{ asset('uploads/photos/' ~ oeuvre.photoPrincipale.getCheminServeur) }}" alt="image principale de {{ oeuvre.nom }}">
+                </div>
+
+                <div class="col-sm metadonnees">
+                    <div id="descriptif">
+                        <h5><b>Descriptif :</b></h5>
+                        <p id="descriptif_oeuvre"> {{ oeuvre.descriptif }}</p>
+                    </div>
+                    <div id="auteurs_categorie">
+                        {% if oeuvre.auteurs is not null %}
+                            <p id="auteurs_oeuvre"><b>Auteur(s): </b>{{ oeuvre.auteurs }}</p>
+                        {% endif %}
+                        <p id="categorie_oeuvre"><b>Catégorie: </b>{{ oeuvre.categorie.nom }}</p>
+                        {%  if datePublication is not null %}
+                            <p id="date_oeuvre"><b>Date de publication: </b> {{ datePublication|date('d/m/Y') }}</p>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        {% else %}
+            <div class="container metadonnees">
+                <h5><b>Descriptif :</b></h5>
+                <p id="descriptif_oeuvre"> {{ oeuvre.descriptif }}</p>
+                {% if oeuvre.auteurs is not null %}
+                    <p id="auteurs_oeuvre"><b>Auteur(s): </b>{{ oeuvre.auteurs }}</p>
+                {% endif %}
+                <p id="categorie_oeuvre"><b>Catégorie: </b>{{ oeuvre.categorie.nom }}</p>
+                {%  if datePublication is not null %}
+                    <p id="date_oeuvre"><b>Date de publication: </b> {{ datePublication|date('d/m/Y') }}</p>
+                {% endif %}
+            </div>
+        {% endif %}
+
+        {% if is_granted('ROLE_USER') and app.user == oeuvre.createur %}
+            <div id="modifier_oeuvre">
+                <a class="btn btn-info text-decoration-none" role="button"  href="{{ path('editerOeuvre', {'oeuvreId': oeuvre.id}) }}">Modifier</a>
+            </div>
+        {% endif %}
+
+        <p id="avis_oeuvre"><b>Avis:</b> <span id="avis-oeuvre-text">{{ avis }}</span> (<span id="avis-oeuvre-nb">{{ oeuvre.avis|length }}</span> avis)</p>
+        {% if oeuvre.avis|length == 0 %}
+            <div id="progress_vide" class="progress">
+            </div>
+        {% else %}
+            <div id="progress_non_vide" class="progress" >
+                <div class="progress-bar" role="progressbar" aria-valuenow="{{ avisPourcentage }}" aria-valuemin="0" aria-valuemax="100" style="width: {{ avisPourcentage }}%;">
+                </div>
+                <div id="avis_pourcentage">
+                    {{ avisPourcentage }}
+                </div>
+                <div id="pourcentage">
+                    %
+                </div>
+            </div>
+        {% endif %}
+
+        <div id="bouton_avis">
+            {% if is_granted('ROLE_USER') and app.user != oeuvre.createur %}
+                {% if valAvis is null %}
+                    <a href="{{path('ajouterAvis', {'oeuvreId': oeuvre.id, 'valAvis' : 1})}}" ><i class="far fa-thumbs-up"></i></a>
+                    <a href="{{path('ajouterAvis', {'oeuvreId': oeuvre.id, 'valAvis' : 0})}}" ><i class="far fa-thumbs-down"></i></a>
+                {% elseif valAvis.type == "1" %}
+                    <a href="{{path('supprimerAvis', {'oeuvreId': oeuvre.id, 'avisId' : valAvis.id})}}" style="color: blue"><i class="far fa-thumbs-up current-vote"></i></a>
+                    <a href="{{path('ajouterAvis', {'oeuvreId': oeuvre.id, 'valAvis' : 0})}}" ><i class="far fa-thumbs-down"></i></a>
+                {% else %}
+                    <a href="{{path('ajouterAvis', {'oeuvreId': oeuvre.id, 'valAvis' : 1})}}" ><i class="far fa-thumbs-up"></i></a>
+                    <a href="{{path('supprimerAvis', {'oeuvreId': oeuvre.id, 'avisId' : valAvis.id})}}" style="color: red"><i class="far fa-thumbs-down current-vote"></i></a>
+                {% endif %}
+            {% endif %}
+        </div>
+
+        {#   message de validation de vote     #}
+        {% for label, messages in app.flashes(['info-avis']) %}
+            {% for message in messages %}
+                <div class="alert alert-secondary alert-dismissible fade show" role="alert">
+                    {{ message }}
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            {% endfor %}
+        {% endfor %}
+
+        {%if oeuvre.photosSecondaires is not empty %}
+            <div id="photosSecondaires_wrapper">
+                <div id="carousel-thumb" class="carousel slide carousel-thumbnails" data-ride="carousel">
+                    <div class="carousel-inner" role="listbox">
+                        {% for photo in oeuvre.photosSecondaires %}
+                            <div class="carousel-item {% if loop.first %}active{% endif %}">
+                                <img class="d-block image-secondaire" src="{{ asset('uploads/photos/' ~ photo.getCheminServeur) }}" alt="Photo secondaire de {{ oeuvre.nom }}">
+                            </div>
+                        {% endfor %}
+                    </div>
+
+                    <a class="carousel-control-prev" href="#carousel-thumb" role="button" data-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="sr-only">Précédent</span>
+                    </a>
+                    <a class="carousel-control-next" href="#carousel-thumb" role="button" data-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="sr-only">Suivant</span>
+                    </a>
+                    <!--/.Controls-->
+                </div>
+                <ol class="carousel-indicators">
+                    {% for photo in oeuvre.photosSecondaires %}
+                        <li data-target="#carousel-thumb" data-slide-to="{{ loop.index0 }}" class="active">
+                            <img src="{{ asset('uploads/photos/' ~ photo.getCheminServeur) }}" class="img-fluid">
+                        </li>
+                    {% endfor %}
+                </ol>
+            </div>
+        {% endif %}
+
+
+        {% if is_granted('ROLE_USER') and app.user != oeuvre.createur %}
+            {{ form_start(form) }}
+
+            {{ form_errors(form) }}
+            {{ form_errors(form.message) }}
+
+            {{ form_widget(form.message, {'id' : 'input-comment' , 'attr': {'class': 'form-control mb-4', 'placeholder': 'Expliquez votre avis ici' }}) }}
+            {{ form_widget(form.Envoyer, {'id' : 'btn-send-comment', attr: {'class': 'form-control mb-4 btn btn-info', 'disabled': 'true'}}) }}
+            {{ form_end(form) }}
+        {% endif %}
+
+        <div id="commentaires" class="container">
+            {% for com in oeuvre.commentaires %}
+                <div class="commentaire">
+                    <div>
+                        {% if com.utilisateur is not null %}
+                            <b>{{com.utilisateur.login}} :</b>
+                        {% else %}
+                            <b>Un utilisateur :</b>
+                        {% endif %}
+                    </div>
+                    <div id="date">
+                        publié le {{com.date|date('d/m/Y')}}
+                    </div>
+                    <p>
+                        {{com.message}}
+                    </p>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    {# ajouter ici les fichiers css custom à la page#}
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+    <script>
+        $(document).ready(function() {
+            $("#input-comment").on("change keyup paste", function () {
+                if($(this).val().trim() === ""){
+                    $("#btn-send-comment").attr("disabled", true);
+                }else{
+                    $("#btn-send-comment").attr("disabled", false);
+                }
+            });
+        });
+    </script>
+
+{% endblock %}

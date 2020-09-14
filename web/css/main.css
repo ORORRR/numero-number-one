@@ -1,0 +1,207 @@
+.navbar-nav {
+    flex-direction: row;
+}
+
+#visu_wrapper {
+    position: relative;
+    min-height: 2.5in;
+}
+
+#img_container {
+    display: table-cell;
+    text-align: center;
+    white-space: nowrap;
+}
+
+#img_container > span {
+    display: inline-block;
+    height: 100%;
+    vertical-align: middle;
+}
+
+#img_oeuvre {
+    max-width: 90%;
+    max-height: 5in;
+    vertical-align: middle;
+}
+.metadonnees {
+    max-width: 75%;
+    text-align: justify;
+}
+
+#descriptif {
+    height : 70%;
+}
+
+#auteurs_categorie {
+    position: relative;
+    bottom: 0pt;
+    clear: both;
+}
+
+#auteurs_oeuvre, #categorie_oeuvre {
+    margin-bottom:-2pt;
+}
+
+#avis_oeuvre {
+    text-align: justify;
+    margin-top: 0.5in;
+}
+
+#modifier_oeuvre {
+    margin-top: 2em;
+}
+
+.progress {
+    width: 25%;
+    position: absolute;
+}
+
+#progress_vide {
+    background-color: #787878;
+    position: relative;
+}
+
+#progress_non_vide {
+    background-color: #fc5151;
+    position: relative;
+}
+
+#avis_pourcentage {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translate(-50%, 0%);
+    color: white;
+}
+
+#pourcentage {
+    position: absolute;
+    top: 0;
+    left: 55%;
+    color: white;
+}
+
+#bouton_avis {
+    display: block;
+    font-size: 20pt;
+    text-align: justify;
+    min-height: 40px;
+}
+
+#bouton_avis > * {
+    color: grey;
+}
+
+#bouton_avis:nth-child(2) {
+    margin-left: 10pt;
+}
+
+#commentaires {
+    text-align: justify;
+    margin-bottom: 10pt;
+}
+.commentaire {
+    position: relative;
+}
+
+.commentaire > p{
+    padding : 5pt;
+    min-height: 50pt;
+    background-color: #DDDDDD;
+    border-radius: 5px;
+}
+
+#date {
+    position: absolute;
+    right: 0px;
+    top: 2pt;
+    font-size: 10pt;
+    color: #4e555b;
+}
+
+.carousel-indicators {
+    bottom: 3.5em;
+}
+
+.carousel-indicators li {
+    background-color: transparent;
+    width: 5em;
+    margin: auto 5px;
+    position: relative;
+}
+
+.carousel-indicators li img {
+    display: block;
+    vertical-align: middle;
+    max-height: 5em;
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%, 0);
+    vertical-align: middle;
+}
+
+#photosSecondaires_wrapper {
+    margin-top: 1em;
+    margin-bottom: 2em;
+    text-align: center;
+    width: 100%;
+    height: 4in;
+    background-color: #1d2124;
+    padding: 2em;
+    border-radius: 1em;
+    position: relative;
+}
+
+#carousel-thumb {
+    margin: auto;
+    height: 90%;
+}
+
+.carousel-inner {
+    height: 100%;
+    width: auto;
+}
+
+.carousel-item {
+    height: 90%;
+    position: relative
+}
+
+.carousel-item img {
+    height: 100%;
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%, 0);
+}
+
+.mt-4 {
+    margin-left: 1em;
+}
+
+.modifiable-progress {
+    transform: translate(0, 60%);
+}
+
+.row {
+    position: relative;
+}
+
+#avis {
+    position: absolute;
+    right: 10em;
+}
+
+#avis_modif {
+    position: absolute;
+    right: 19.5em;
+}
+
+/*.avis-list .progress_non_vide, .avis-list .progress_vide  {*/
+/*    width : 100%;*/
+/*    background: #f4b747;*/
+/*}*/
+
+/*.avis-list  .progress_non_vide {*/
+/*    background-color: #fc5151;*/
+/*}*/

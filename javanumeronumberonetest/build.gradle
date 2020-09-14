@@ -1,0 +1,42 @@
+plugins {
+    id 'java'
+    id 'maven'
+}
+
+group 'fr.univ-fcomte.disc'
+version '0.1'
+compileJava.options.encoding = "UTF-8"
+compileTestJava.options.encoding = "UTF-8"
+
+sourceCompatibility = 1.8
+
+repositories {
+    maven {url "https://repo.maven.apache.org/maven2"}
+}
+
+dependencies {
+    compile group: 'org.mockito', name: 'mockito-core', version:'2.2.18'
+    testCompile group: 'info.cukes', name:'cucumber-java', version:'1.2.5'
+    testCompile group: 'info.cukes', name:'cucumber-junit', version:'1.2.5'
+    testCompile group: 'info.cukes', name:'cucumber-picocontainer', version:'1.2.4'
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+    testCompile group: 'org.seleniumhq.selenium', name: 'selenium-htmlunit-driver', version: '2.52.0'
+    testCompile group: 'io.github.bonigarcia', name: 'webdrivermanager', version: '3.7.1'
+}
+
+configurations {
+    cucumberRuntime {
+        extendsFrom testRuntime
+    }
+}
+
+task cucumber() {
+    dependsOn assemble, compileTestJava
+    doLast {
+        javaexec {
+            main = "cucumber.api.cli.Main"
+            classpath = configurations.cucumberRuntime + sourceSets.main.output + sourceSets.test.output
+            args = ['--plugin', 'pretty', '--glue', 'src/test/java/', 'src/test/resources']
+        }
+    }
+}

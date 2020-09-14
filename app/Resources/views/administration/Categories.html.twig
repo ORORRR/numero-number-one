@@ -1,0 +1,109 @@
+{% extends 'administration/administration.html.twig' %}
+{% form_theme form 'form/errors.html.twig' %}
+
+{% block admin_content %}
+
+    <p class="h3 mb-4"><strong>Ajout d'une catégorie</strong></p>
+    {{ form_start(form) }}
+
+    {% for label, messages in app.flashes(['error']) %}
+        {% for message in messages %}
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                {{ message }}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        {% endfor %}
+    {% endfor %}
+
+    {{ form_errors(form) }}
+    {{ form_errors(form.nom) }}
+
+    <div class="form-row mb-4">
+        <div class="col-10">
+            {{ form_widget(form.nom, {'attr': {'class': 'form-control', 'placeholder': 'Nom'}}) }}
+        </div>
+        <div class="col-2">
+            <button id="ajout-categorie-btn" type="submit" class="btn btn-info btn-block">Ajouter ! </button>
+        </div>
+    </div>
+
+    {{ form_end(form) }}
+
+    <p class="h3 mb-4"><strong>Suppression d'une catégorie</strong></p>
+
+    <table class="table table-bordered">
+        <tbody>
+        {% for categorie in cats %}
+            <tr>
+                <td scope="row">{{ categorie.nom }}</td>
+                <td>
+                    <button type="button"
+                            class="btn-supprimer-categorie btn btn-info"
+                            data-cat-name="{{ categorie.nom }}"
+                            data-cat-del-link="{{ path('suppressionCategorie', {'categorieId': categorie.id}) }}">
+                        Supprimer
+                    </button>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                Pas de catégorie trouvée.
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <!-- Modal de confirmation de suppression -->
+    <div class="modal fade" id="modale-suppression" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">Confirmation de suppression</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>Etes vous sur de vouloir supprimer la catégorie <span class="font-italic" id="modale-nom-categorie"></span> ?</p>
+                    <p>Cette action est irréversible et entrainera la suppression de toutes les oeuvres de cette catégorie.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
+                    <a id="modale-valider-suppression-btn" class="btn btn-info" href="">Supprimer</a>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+{% endblock %}
+
+ {% block javascripts %}
+     {{ parent() }}
+
+     <script>
+         $(document).ready(function(){
+             $(".btn-supprimer-categorie").click(function (event) {
+
+                 var target = $( event.target );
+
+                 //récupérer le lien de suppresseion et le nom de la catégorie cliquée
+                 var nom = target.attr('data-cat-name');
+                 var del_link = target.attr('data-cat-del-link');
+
+                 //seter le nom dans la modale
+                 $("#modale-nom-categorie").text(nom);
+
+                 //seter le lien de suppresssion dans la modale
+                 $("#modale-valider-suppression-btn").attr("href", del_link);
+
+                 //afficher la modale
+                 $("#modale-suppression").modal();
+             });
+         });
+     </script>
+ {% endblock %}
