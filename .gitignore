@@ -38,12 +38,14 @@
 # PHPUnit
 /app/phpunit.xml
 /phpunit.xml
+/phpunit.xml.dist
 
 # Build data
 /build/
 
 # Composer PHAR
 /composer.phar
+composer.lock
 
 # Backup entities generated with doctrine:generate:entities command
 **/Entity/*~
