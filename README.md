@@ -1,10 +1,9 @@
 ## What is Numero Number One ?
 
 *Numero Number One* is a web application that allows users to consult and rate works of art.
-Users can create an
 
 This project was made for the **Functional Testing** of my Master's Degree.
-The aim of this project was to build a web applicaiton and test it, in order to satisfy a client list of requierements.
+The aim was to build a web applicaiton and test it, in order to satisfy a client list of requierements.
 
 
 -----------------------------
