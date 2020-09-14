@@ -1,72 +1,51 @@
-Symfony Standard Edition
-========================
+## What is Numero Number One ?
 
-Welcome to the Symfony Standard Edition - a fully-functional Symfony
-application that you can use as the skeleton for your new applications.
+*Numero Number One* is a web application that allows users to consult and rate works of art.
+Users can create an
 
-For details on how to download and get started with Symfony, see the
-[Installation][1] chapter of the Symfony Documentation.
+This project was made for the **Functional Testing** of my Master's Degree.
+The aim of this project was to build a web applicaiton and test it, in order to satisfy a client list of requierements.
 
-What's inside?
---------------
 
-The Symfony Standard Edition is configured with the following defaults:
+-----------------------------
 
-  * An AppBundle you can use to start coding;
+## How is it made ?
 
-  * Twig as the only configured template engine;
+This application is made in **PHP** with **Symfony 3.4**.
 
-  * Doctrine ORM/DBAL;
+More than 100 Cucumber acceptance tests are availables in the `javanumeronumberonetests/` folder.
 
-  * Swiftmailer;
+This project was carried out by an agile team of 7 person, in which I was the **project manager / tech lead**.
 
-  * Annotations enabled for everything.
 
-It comes pre-configured with the following bundles:
 
-  * **FrameworkBundle** - The core Symfony framework bundle
+----------------------------------------
 
-  * [**SensioFrameworkExtraBundle**][6] - Adds several enhancements, including
-    template and routing annotation capability
 
-  * [**DoctrineBundle**][7] - Adds support for the Doctrine ORM
+## Demo
 
-  * [**TwigBundle**][8] - Adds support for the Twig templating engine
+To access *Numero Number One* users have to login or sign-in.
 
-  * [**SecurityBundle**][9] - Adds security by integrating Symfony's security
-    component
+![Inscription Connexion](./demo/connection-inscription.gif "Inscription Connextion")
 
-  * [**SwiftmailerBundle**][10] - Adds support for Swiftmailer, a library for
-    sending emails
+----
 
-  * [**MonologBundle**][11] - Adds support for Monolog, a logging library
+Once logged in, users can search for works of art and consult weekly/monthly/yearly rakings of top works of art by category.
+Users can consult details about a work of art, rate and comment it.
 
-  * **WebProfilerBundle** (in dev/test env) - Adds profiling functionality and
-    the web debug toolbar
+![Recherche Classement](./demo/recherche-classement.gif "Recherche Classement")
 
-  * **SensioDistributionBundle** (in dev/test env) - Adds functionality for
-    configuring and working with Symfony distributions
+----
 
-  * [**SensioGeneratorBundle**][13] (in dev env) - Adds code generation
-    capabilities
+Users can add a new work of art to the website, and manage it.
+![Ajout Oeuvre](./demo/ajout-oeuvre.gif "Ajout Oeuvre")
 
-  * [**WebServerBundle**][14] (in dev env) - Adds commands for running applications
-    using the PHP built-in web server
+----
 
-  * **DebugBundle** (in dev/test env) - Adds Debug and VarDumper component
-    integration
+Administrators of *Numero Number One* can manage categories, works of art and users.
 
-All libraries and bundles included in the Symfony Standard Edition are
-released under the MIT or BSD license.
+![Administation](./demo/administration.gif "Administration")
 
-Enjoy!
 
-[1]:  https://symfony.com/doc/3.4/setup.html
-[6]:  https://symfony.com/doc/current/bundles/SensioFrameworkExtraBundle/index.html
-[7]:  https://symfony.com/doc/3.4/doctrine.html
-[8]:  https://symfony.com/doc/3.4/templating.html
-[9]:  https://symfony.com/doc/3.4/security.html
-[10]: https://symfony.com/doc/3.4/email.html
-[11]: https://symfony.com/doc/3.4/logging.html
-[13]: https://symfony.com/doc/current/bundles/SensioGeneratorBundle/index.html
-[14]: https://symfony.com/doc/current/setup/built_in_web_server.html
+
+
