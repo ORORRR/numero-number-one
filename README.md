@@ -2,7 +2,7 @@
 
 *Numero Number One* is a web application that allows users to consult and rate works of art.
 
-This project was made for the **Functional Testing** of my Master's Degree.
+This project was made for the **Functional Testing** class of my Master's Degree.
 The aim was to build a web applicaiton and test it, in order to satisfy a client list of requierements.
 
 
